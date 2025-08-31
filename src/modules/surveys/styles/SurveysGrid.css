@@ -1,0 +1,44 @@
+/* Contenedor principal de la grilla de encuestas */
+.surveys-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem; /* Espacio entre las tarjetas */
+  width: 100%;
+}
+
+/* Mensaje para cuando no hay encuestas */
+.no-surveys-message {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+
+/* --- Estilos de Placeholder para la tarjeta (temporal) --- */
+.survey-card-placeholder {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.survey-card-placeholder:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.survey-card-placeholder h3 {
+    margin: 0 0 0.75rem 0;
+    color: #2c3e50;
+}
+
+.survey-card-placeholder p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 0.95rem;
+}
+/* ------------------------------------------------------------- */

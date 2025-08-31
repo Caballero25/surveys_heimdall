@@ -1,0 +1,43 @@
+.create-survey-card {
+  background-color: #f8f9fa; /* Un fondo muy claro, casi blanco */
+  border-radius: 12px;
+  /* Borde punteado para diferenciarla de las tarjetas de datos */
+  border: 2px dashed #d1d8dd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px; /* Asegura una altura mínima consistente con las otras tarjetas */
+  text-decoration: none; /* Quita el subrayado del Link */
+  color: #7f8c8d; /* Color de texto gris suave */
+  transition: all 0.3s ease;
+}
+
+.create-survey-card:hover {
+  border-color: #fe972b; /* El borde se vuelve naranja al pasar el mouse */
+  background-color: #ffffff;
+  color: #fe972b; /* El texto se vuelve naranja */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Contenido interno de la tarjeta */
+.create-survey-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Estilo del ícono de '+' */
+.plus-icon {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 300;
+}
+
+/* Estilo del texto */
+.create-survey-card-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}

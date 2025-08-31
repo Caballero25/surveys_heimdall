@@ -1,0 +1,157 @@
+
+.survey-info-layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #0f172a; /* Fondo principal muy oscuro */
+  color: #e2e8f0; /* Texto principal claro */
+  min-height: calc(94vh - 80px); /* Ocupa al menos toda la altura visible */
+}
+
+/* Columna lateral para los filtros */
+.filters-sidebar {
+  flex: 0 0 300px; /* Ancho fijo de 300px, no crece ni se encoge */
+  max-height: 26rem;
+}
+
+/* Tarjeta que contiene los filtros */
+.filter-card {
+  background-color: #1e293b; /* Fondo de la tarjeta */
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #334155;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-card h2 {
+  font-size: 1.25rem;
+  color: #f1f5f9;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #334155;
+}
+
+/* Grupo de formulario (label + input/select) */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  background-color: #334155;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #f1f5f9;
+  font-size: 1rem;
+}
+
+.form-group input:disabled,
+.form-group select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estilos específicos para los botones DENTRO del filter-card */
+.filter-card .report-button,
+.filter-card .toggle-view-button {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.filter-card .report-button {
+  background-color: #475569; /* Color para el botón deshabilitado */
+  color: #94a3b8;
+  margin-top: auto; /* Empuja este botón hacia abajo */
+  margin-bottom: 1rem;
+  cursor: not-allowed;
+}
+
+.filter-card .toggle-view-button {
+  background-color: #fe972b; /* Naranja de la paleta */
+  color: #ffffff;
+}
+
+.filter-card .toggle-view-button:hover {
+  background-color: #e88721; /* Naranja más oscuro al pasar el mouse */
+}
+
+/* Contenido principal (gráfico) */
+.main-content {
+  flex: 1; /* Ocupa todo el espacio restante */
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header h2 {
+  font-size: 1.75rem;
+  color: #f1f5f9;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.chart-container {
+  flex: 1; /* El contenedor del gráfico ocupa todo el espacio vertical restante */
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #334155;
+  min-height: 400px; /* Altura mínima para asegurar visibilidad */
+}
+
+/* Contenedor para mensajes de carga o error */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+  font-size: 1.25rem;
+  color: #94a3b8;
+}
+
+/* ---- Estilos para pantallas pequeñas (Responsive) ---- */
+@media (max-width: 992px) {
+  .survey-info-layout {
+    flex-direction: column; /* Apila la barra lateral y el contenido principal */
+    padding: 1rem; /* Reduce el padding en pantallas pequeñas */
+    min-height: auto;
+  }
+
+  .filters-sidebar {
+    flex: 1 1 auto; /* Permite que la barra lateral ocupe el ancho completo */
+    max-height: none; /* Elimina la altura máxima para que quepa todo el contenido */
+  }
+
+  .chart-header h2 {
+    font-size: 1.5rem; /* Reduce el tamaño del título del gráfico */
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-card h2,
+  .chart-header h2 {
+    text-align: center; /* Centra los títulos en móviles */
+  }
+
+  .chart-container {
+    min-height: 65vh; /* Aumenta la altura mínima del gráfico en móviles para que sea visible */
+  }
+}
+

@@ -16,7 +16,10 @@ export function NavBar() {
       </div>
       <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
         <li>
-          <Link to="/">Surveys</Link>
+          <Link to="/">Pozos</Link>
+        </li>
+        <li>
+          <Link to="/">Login</Link>
         </li>
       </ul>
     </nav>

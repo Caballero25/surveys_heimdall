@@ -2,7 +2,7 @@
 .surveys-page-container {
   width: 100%;
   min-height: calc(100vh - 80px); /* Ajusta 80px a la altura de tu navbar */
-  background-color: #f9f9f9; /* Fondo gris muy claro, casi blanco */
+  background-color: #0f172a; /* Fondo gris muy claro, casi blanco */
   padding: 2rem 4rem; /* Relleno generoso */
   box-sizing: border-box;
 }
@@ -16,14 +16,14 @@
 
 .surveys-page-header h1 {
   font-size: 2.5rem;
-  color: #2c3e50; /* Un gris oscuro azulado para el texto principal */
+  color: #eeeeee; /* Un gris oscuro azulado para el texto principal */
   margin: 0;
   font-weight: 700;
 }
 
 .surveys-page-header p {
   font-size: 1.1rem;
-  color: #7f8c8d; /* Un gris más suave para el subtítulo */
+  color: #e88721; /* Un gris más suave para el subtítulo */
   margin-top: 0.5rem;
 }
 

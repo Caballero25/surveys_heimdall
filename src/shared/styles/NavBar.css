@@ -16,7 +16,25 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+.user-info {
+  display: flex;
+  align-items: center; 
+  gap: 8px;
+  margin-left: 10px;
+  margin-right: 20px; 
+}
 
+.user-info .bi {
+  font-size: 1.3rem; 
+  color: #0f172a;  
+}
+
+.admin-text {
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
 .navbar-links {
   list-style: none;
   display: flex;

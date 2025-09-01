@@ -20,9 +20,9 @@
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid #334155;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 .filter-card h2 {
@@ -113,7 +113,7 @@
   border-radius: 12px;
   padding: 1rem;
   border: 1px solid #334155;
-  min-height: 400px; /* Altura mínima para asegurar visibilidad */
+  display: flex;
 }
 
 /* Contenedor para mensajes de carga o error */

@@ -7,7 +7,7 @@ export default function CreateSurveyCard() {
     <Link to="/surveys/new" className="create-survey-card">
       <div className="create-survey-card-content">
         <div className="plus-icon">+</div>
-        <span className="create-survey-card-text">Create a new Survey</span>
+        <span className="create-survey-card-text">Crear nuevo proyecto</span>
       </div>
     </Link>
   )

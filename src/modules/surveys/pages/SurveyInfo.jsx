@@ -38,6 +38,7 @@ export default function SurveyInfo() {
       "Completacion Quimica - Configuracion",
       "Monitoreo Consumo - trazabilidad",
       "Historico TearDown",
+      "Cros-plot Comparativo de Resultados"
     ],
   };
 

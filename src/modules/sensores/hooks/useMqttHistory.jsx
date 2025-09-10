@@ -5,11 +5,13 @@ import Plot from 'react-plotly.js';
 // Configuración de los temas MQTT
 const TOPICS = ["/Gae/PCasing/", "/Gae/PTubing/", "/Gae/FlowCount/"];
 const TOPIC_CONFIG = {
-  "/Gae/PCasing/": { name: "Presión Casing", color: "#1f77b4", unit: "PSI" },
-  "/Gae/PTubing/": { name: "Presión Tubing", color: "#d62728", unit: "PSI" },
-  "/Gae/FlowCount/": { name: "Flujo", color: "#2ca02c", unit: "PCD" },
+  "/Gae/PCasing/": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
+  "/Gae/PTubing/": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
+  "/Gae/FlowCount/": { name: "Flujo", color: "#8A2BE2", unit: "PCD" },
 };
 const MAX_DATA_POINTS = 300;
+const PADDING_PERCENT_MAX = 0.10;
+const PADDING_PERCENT_MIN = 0.05;
 
 function generateInitialTestData(topics, numPoints = 30) {
   const initialData = {};
@@ -110,131 +112,139 @@ export function useMqttHistory() {
   // Retorna el estado y las variables para ser usadas por el componente de la página
   return { status, history, lastByTopic, topics: TOPICS, TOPIC_CONFIG };
 } 
-// Componente para la gráfica del Casing
-export function CasingChart({ history }) {
-  const [revision, setRevision] = useState(0);
-  const casingHistory = history["/Gae/PCasing/"];
 
-  useEffect(() => {
-    setRevision(r => r + 1);
-  }, [casingHistory?.x]); 
+export function PressureChart({ history }) {
+  const [revision, setRevision] = useState(0);
+  const casingHistory = history["/Gae/PCasing/"];
+  const tubingHistory = history["/Gae/PTubing/"];
 
-  const traces = [
-    {
-      x: casingHistory?.x,
-      y: casingHistory?.y,
-      name: TOPIC_CONFIG["/Gae/PCasing/"].name,
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: TOPIC_CONFIG["/Gae/PCasing/"].color, width: 2 },
-    },
-  ];
+  const [yMin, yMax] = useMemo(() => {
+    const casingData = casingHistory?.y || [];
+    const tubingData = tubingHistory?.y || [];
+    const allData = [...casingData, ...tubingData];
+    if (allData.length === 0) return [0, 100];
+    const currentYMin = Math.min(...allData);
+    const currentYMax = Math.max(...allData);
+    const calculatedYMin = currentYMin > 0 ? currentYMin * (1 - PADDING_PERCENT_MIN) : 0;
+    const calculatedYMax = currentYMax * (1 + PADDING_PERCENT_MAX);
+    return [calculatedYMin, calculatedYMax];
+  }, [casingHistory, tubingHistory]);
 
-  const layout = {
-    datarevision: revision,
-    autosize: true,
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: '#ffffff', // Fondo de la gráfica blanco
-    font: { color: '#000000' }, // Color del texto negro
-    title: { text: 'Presión Casing en Tiempo Real', font: { size: 18, color: '#000000' } },
-    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 }, // Márgenes más ajustados
-    xaxis: { title: 'Tiempo', gridcolor: '#e6e6e6', type: 'date', tickfont: { color: '#555555' } },
-    yaxis: { title: 'Presión (PSI)', gridcolor: '#e6e6e6', tickfont: { color: '#555555' } },
-  };
+  useEffect(() => {
+    setRevision(r => r + 1);
+  }, [casingHistory?.x, tubingHistory?.x]);
 
-  return (
-    <Plot
-      data={traces}
-      layout={layout}
-      style={{ width: '100%', height: '100%' }}
-      useResizeHandler={true}
-      config={{ responsive: true }}
-    />
-  );
+  const traces = [
+    {
+      x: casingHistory?.x,
+      y: casingHistory?.y,
+      name: TOPIC_CONFIG["/Gae/PCasing/"].name,
+      type: 'scatter',
+      mode: 'lines',
+      line: { color: TOPIC_CONFIG["/Gae/PCasing/"].color, width: 2 },
+    },
+    {
+      x: tubingHistory?.x,
+      y: tubingHistory?.y,
+      name: TOPIC_CONFIG["/Gae/PTubing/"].name,
+      type: 'scatter',
+      mode: 'lines',
+      line: { color: TOPIC_CONFIG["/Gae/PTubing/"].color, width: 2 },
+    },
+  ];
+
+  const layout = {
+    datarevision: revision,
+    autosize: true,
+    paper_bgcolor: "#1e293b",
+      plot_bgcolor: "#1e293b",
+    font: { color: '#e0e0e0' },
+    title: { text: 'Presión Casing vs Tubing en Tiempo Real', font: { size: 18, color: '#e0e0e0' } },
+    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 },
+    xaxis: {
+      title: 'Tiempo',
+      gridcolor: '#444444',
+      type: 'date',
+      tickfont: { color: '#e0e0e0' }
+    },
+    yaxis: {
+      title: 'Presión (PSI)',
+      gridcolor: '#444444',
+      tickfont: { color: '#e0e0e0' },
+      nticks: 6,
+      range: [yMin, yMax],
+    },
+  };
+
+  return (
+    <Plot
+      data={traces}
+      layout={layout}
+      style={{ width: '100%', height: '100%' }}
+      useResizeHandler={true}
+      config={{ responsive: true }}
+    />
+  );
 }
 
-// Componente para la gráfica del Tubing
-export function TubingChart({ history }) {
-  const [revision, setRevision] = useState(0);
-  const tubingHistory = history["/Gae/PTubing/"];
-  
-  useEffect(() => {
-    setRevision(r => r + 1);
-  }, [tubingHistory?.x]); 
-
-  const traces = [
-    {
-      x: tubingHistory?.x,
-      y: tubingHistory?.y,
-      name: TOPIC_CONFIG["/Gae/PTubing/"].name,
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: TOPIC_CONFIG["/Gae/PTubing/"].color, width: 2 },
-    },
-  ];
-
-  const layout = {
-    datarevision: revision,
-    autosize: true,
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: '#ffffff', // Fondo de la gráfica blanco
-    font: { color: '#000000' }, // Color del texto negro
-    title: { text: 'Presión Tubing en Tiempo Real', font: { size: 18, color: '#000000' } },
-    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 }, // Márgenes más ajustados
-    xaxis: { title: 'Tiempo', gridcolor: '#e6e6e6', type: 'date', tickfont: { color: '#555555' } },
-    yaxis: { title: 'Presión (PSI)', gridcolor: '#e6e6e6', tickfont: { color: '#555555' } },
-  };
-
-  return (
-    <Plot
-      data={traces}
-      layout={layout}
-      style={{ width: '100%', height: '100%' }}
-      useResizeHandler={true}
-      config={{ responsive: true }}
-    />
-  );
-}
-
-// Componente para la gráfica del Flujo
 export function FlowCountChart({ history }) {
-  const [revision, setRevision] = useState(0);
-  const flowCountHistory = history["/Gae/FlowCount/"];
-  
-  useEffect(() => {
-    setRevision(r => r + 1);
-  }, [flowCountHistory?.x]); 
+  const [revision, setRevision] = useState(0);
+  const flowCountHistory = history["/Gae/FlowCount/"];
 
-  const traces = [
-    {
-      x: flowCountHistory?.x,
-      y: flowCountHistory?.y,
-      name: TOPIC_CONFIG["/Gae/FlowCount/"].name,
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: TOPIC_CONFIG["/Gae/FlowCount/"].color, width: 2 },
-    },
-  ];
+  const [yMin, yMax] = useMemo(() => {
+    if (!flowCountHistory?.y || flowCountHistory.y.length === 0) return [0, 100];
+    const currentYMin = Math.min(...flowCountHistory.y);
+    const currentYMax = Math.max(...flowCountHistory.y);
+    const calculatedYMin = currentYMin > 0 ? currentYMin * (1 - PADDING_PERCENT_MIN) : 0;
+    const calculatedYMax = currentYMax > 0 ? currentYMax * (1 + PADDING_PERCENT_MAX) : 100;
+    return [calculatedYMin, calculatedYMax];
+  }, [flowCountHistory]);
 
-  const layout = {
-    datarevision: revision,
-    autosize: true,
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: '#ffffff', // Fondo de la gráfica blanco
-    font: { color: '#000000' }, // Color del texto negro
-    title: { text: 'Flujo en Tiempo Real', font: { size: 18, color: '#000000' } },
-    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 }, // Márgenes más ajustados
-    xaxis: { title: 'Tiempo', gridcolor: '#e6e6e6', type: 'date', tickfont: { color: '#555555' } },
-    yaxis: { title: 'Flujo (PCD)', gridcolor: '#e6e6e6', tickfont: { color: '#555555' } },
-  };
+  useEffect(() => {
+    setRevision(r => r + 1);
+  }, [flowCountHistory?.x]);
 
-  return (
-    <Plot
-      data={traces}
-      layout={layout}
-      style={{ width: '100%', height: '100%' }}
-      useResizeHandler={true}
-      config={{ responsive: true }}
-    />
-  );
+  const traces = [
+    {
+      x: flowCountHistory?.x,
+      y: flowCountHistory?.y,
+      name: TOPIC_CONFIG["/Gae/FlowCount/"].name,
+      type: 'scatter',
+      mode: 'lines',
+      line: { color: TOPIC_CONFIG["/Gae/FlowCount/"].color, width: 2 },
+    },
+  ];
+
+  const layout = {
+    datarevision: revision,
+    autosize: true,
+    paper_bgcolor: "#1e293b",
+      plot_bgcolor: "#1e293b",
+    font: { color: '#e0e0e0' },
+    title: { text: 'Flujo en Tiempo Real', font: { size: 18, color: '#e0e0e0' } },
+    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 },
+    xaxis: {
+      title: 'Tiempo',
+      gridcolor: '#444444',
+      type: 'date',
+      tickfont: { color: '#e0e0e0' }
+    },
+    yaxis: {
+      title: 'Flujo (PCD)',
+      gridcolor: '#444444',
+      tickfont: { color: '#e0e0e0' },
+      nticks: 6,
+      range: [yMin, yMax],
+    },
+  };
+
+  return (
+    <Plot
+      data={traces}
+      layout={layout}
+      style={{ width: '100%', height: '100%' }}
+      useResizeHandler={true}
+      config={{ responsive: true }}
+    />
+  );
 }

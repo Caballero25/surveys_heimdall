@@ -51,6 +51,7 @@ function tryConnect(idx, resolve, reject){
   lastTriedUrl = `ws://${HOST}:${PORT}${path}`;
 
   client.onConnectionLost = (r) => {
+    console.log("Conexión Perdida")
     isConnected = false;
     emit({ type: "status", isConnected, reason: r?.errorMessage || "lost" });
   };

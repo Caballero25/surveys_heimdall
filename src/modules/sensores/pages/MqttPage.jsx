@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useMqttHistory, TubingChart, CasingChart, FlowCountChart} from '../hooks/useMqttHistory';
+import { useMqttHistory, PressureChart, FlowCountChart } from '../hooks/useMqttHistory';
 import ConnectionBadge from '../components/ConnectionBadge';
 import TopicCard from '../components/TopicCard';
 import Spinner from '../components/Spinner';
@@ -10,24 +10,24 @@ export default function MqttPage() {
 
   // If there's no data yet, show a loading spinner
   // if (!hasData) {
-  //   return (
-  //     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-  //       <Spinner />
-  //       <span className="ms-3 text-muted">Conectando y esperando datos...</span>
-  //     </div>
-  //   );
+  //   return (
+  //     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+  //       <Spinner />
+  //       <span className="ms-3 text-muted">Conectando y esperando datos...</span>
+  //     </div>
+  //   );
   // }
 
   // If data is available, render the full dashboard
   return (
-    <div className="container-fluid py-4 px-lg-4">
+    <div className="container-fluid py-4 px-lg-4" style={{ backgroundColor: '#0f172a', color: '#e0e0e0', minHeight: '100vh' }}>
       <div className="d-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 m-0">Dashboard MQTT en Tiempo Real</h1>
         <ConnectionBadge isConnected={status.isConnected} />
       </div>
 
       {!status.isConnected && status.error && (
-        <div className="alert alert-danger">
+        <div className="alert alert-danger" style={{ backgroundColor: '#331f1f', color: '#ff6b6b', border: 'none' }}>
           Error de conexión a <strong>{status.error.url || 'broker'}</strong>: {String(status.error.msg)}
         </div>
       )}
@@ -36,21 +36,30 @@ export default function MqttPage() {
         <div className="col-lg-9 mb-4">
           <div className="row h-100">
             <div className="col-12 mb-4">
-              <div className="card h-100 shadow-sm" style={{ minHeight: '250px' }}>
+              <div
+                className="card h-100 shadow-sm"
+                style={{
+                  minHeight: '300px',
+                  backgroundColor: '#1e293b', // Fondo oscuro para la tarjeta
+                  border: '1px solid #4a5568', // Borde gris claro
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' // Sombra para el efecto
+                }}
+              >
                 <div className="card-body d-flex flex-column">
-                  <TubingChart history={history} />
+                  <PressureChart history={history} />
                 </div>
               </div>
             </div>
             <div className="col-12 mb-4">
-              <div className="card h-100 shadow-sm" style={{ minHeight: '250px' }}>
-                <div className="card-body d-flex flex-column">
-                  <CasingChart history={history} />
-                </div>
-              </div>
-            </div>
-            <div className="col-12 mb-4">
-              <div className="card h-100 shadow-sm" style={{ minHeight: '250px' }}>
+              <div
+                className="card h-100 shadow-sm"
+                style={{
+                  minHeight: '300px',
+                  backgroundColor: '#1e293b', // Fondo oscuro para la tarjeta
+                  border: '1px solid #4a5568', // Borde gris claro
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                }}
+              >
                 <div className="card-body d-flex flex-column">
                   <FlowCountChart history={history} />
                 </div>
@@ -63,18 +72,9 @@ export default function MqttPage() {
           <div className="row">
             {topics.map(t => {
               const data = lastByTopic[t];
-              return <TopicCard key={t} topic={t} data={data} topicConfig={TOPIC_CONFIG} />;
+              return <TopicCard key={t} topic={t} data={data} style={{ backgroundColor: '#1e293b', color: '#e0e0e0', border: 'none' }} />;
             })}
           </div>
-        </div>
-      </div>
-      
-      <div className="card mt-4">
-        <div className="card-header">Información de Depuración</div>
-        <div className="card-body bg-light">
-          <pre style={{whiteSpace: 'pre-wrap', wordBreak: 'break-all', fontSize: '0.8rem'}}>
-            {JSON.stringify({ status, lastByTopic, hasData }, null, 2)}
-          </pre>
         </div>
       </div>
     </div>

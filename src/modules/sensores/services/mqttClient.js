@@ -1,12 +1,12 @@
 import { Client, Message } from "paho-mqtt";
 
-const HOST = "34.170.90.73";
-const PORT = 9001;
+const HOST = "34.30.17.212";
+const PORT = 8081;
 // Prueba estos paths comunes; puedes agregar más si sabes otro:
 const PATHS = ["/mqtt", "/mqtt/", "/ws", "/ws/", "/"];
 
 // Tus topics
-export const TOPICS = ["/Gae/PCasing/", "/Gae/PTubing/", "/Gae/FlowCount/"];
+export const TOPICS = ["/Sacha53/Pcasing", "/Sacha53/Ptubing"/*, "/Gae/FlowCount/"*/];
 const QOS = 0;
 
 /**
@@ -15,21 +15,21 @@ const QOS = 0;
  * en un solo lugar, haciendo el código más limpio y fácil de mantener.
  */
 export const TOPIC_CONFIG = {
-  "/Gae/PCasing/": {
+  "/Sacha53/Pcasing": {
     name: "Presión Casing",
     unit: "PSI",
     color: "#1f77b4" // Azul profesional
   },
-  "/Gae/PTubing/": {
+  "/Sacha53/Ptubing": {
     name: "Presión Tubing",
     unit: "PSI",
     color: "#ff7f0e" // Naranja vibrante
-  },
+  }/*,
   "/Gae/FlowCount/": {
     name: "Flujo",
     unit: "PCD",
     color: "#2ca02c" // Verde claro
-  },
+  },*/
 };
 
 

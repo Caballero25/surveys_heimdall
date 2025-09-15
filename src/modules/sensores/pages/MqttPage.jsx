@@ -20,7 +20,6 @@ export default function MqttPage() {
 
   const [filterStart, setFilterStart] = useState(null);
   const [filterEnd, setFilterEnd] = useState(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [hiddenLines, setHiddenLines] = useState({});
 
   // Estados para el debounce
@@ -30,13 +29,14 @@ export default function MqttPage() {
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
 
+  // ❗ Efecto para establecer el filtro inicial solo una vez
   useEffect(() => {
-    // Al cargar el componente, establece el filtro de inicio en hace una hora.
     const oneHourAgo = new Date();
     oneHourAgo.setHours(oneHourAgo.getHours() - 1);
     setFilterStart(oneHourAgo);
-  }, []);
+  }, []); // El array vacío asegura que se ejecute solo al montar el componente
 
+  // Efecto para debounce de filterStart
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedFilterStart(filterStart);
@@ -47,6 +47,7 @@ export default function MqttPage() {
     };
   }, [filterStart]);
 
+  // Efecto para debounce de filterEnd
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedFilterEnd(filterEnd);
@@ -57,9 +58,10 @@ export default function MqttPage() {
     };
   }, [filterEnd]);
 
+  // ❗ Efecto para notificar cambios en el filtro (se dispara solo si hay cambios)
   useEffect(() => {
-    if (isInitialLoad) {
-      setIsInitialLoad(false);
+    // Si ambos filtros son nulos, no hay nada que notificar
+    if (!debouncedFilterStart && !debouncedFilterEnd) {
       return;
     }
 
@@ -101,7 +103,6 @@ export default function MqttPage() {
     setHiddenLines(prev => {
       const isHidden = !prev[topic];
       const newState = { ...prev, [topic]: isHidden };
-
       return newState;
     });
   };
@@ -123,6 +124,13 @@ export default function MqttPage() {
     return false;
   };
 
+  const handleResetFilter = () => {
+    const now = new Date();
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+    setFilterStart(oneHourAgo);
+    setFilterEnd(null);
+  };
+
   return (
     <div className="container-fluid py-4 px-lg-4" style={{ backgroundColor: '#0f172a', color: '#e0e0e0', minHeight: '100vh' }}>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
@@ -140,7 +148,7 @@ export default function MqttPage() {
 
       <div className="mb-4">
         <h5 className="mb-2" style={{ color: '#c0c0c0', fontSize: '1rem' }}>Filtrar por Rango de Tiempo</h5>
-        <div className="d-flex flex-wrap gap-3">
+        <div className="d-flex flex-wrap gap-3 align-items-end">
           <div>
             <label className="form-label">Desde:</label>
             <div className="input-group">
@@ -200,6 +208,17 @@ export default function MqttPage() {
                     📅
                 </span>
             </div>
+          </div>
+          {/* Contenedor para alinear el botón con los inputs */}
+          <div>
+              <label className="form-label">&nbsp;</label>
+              <button 
+                className="btn btn-outline-info" 
+                onClick={handleResetFilter}
+                style={{ height: 'calc(1.5em + .75rem + 2px)' }}
+              >
+                Restablecer
+              </button>
           </div>
         </div>
       </div>

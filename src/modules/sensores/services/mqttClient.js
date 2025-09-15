@@ -6,7 +6,16 @@ const PORT = 8081;
 const PATHS = ["/mqtt", "/mqtt/", "/ws", "/ws/", "/"];
 
 // Tus topics
-export const TOPICS = ["/Sacha53/Pcasing", "/Sacha53/Ptubing"/*, "/Gae/FlowCount/"*/];
+export const TOPICS = [
+  "/Sacha53/Pcasing", 
+  "/Sacha53/Ptubing", 
+  "/Sacha53/VsdMotAmps", 
+  "/Sacha53/DHMotorTemp",
+  "/Sacha53/DHDischargePressure",
+  "/Sacha53/DHIntakeTemp",
+  "/Sacha53/DHIntakePressure", 
+  "/Sacha53/VSDTargetFreq",
+];
 const QOS = 0;
 
 /**

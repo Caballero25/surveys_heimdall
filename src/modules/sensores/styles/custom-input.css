@@ -1,0 +1,23 @@
+/* src/styles/custom-input.css */
+
+.futuristic-input {
+    background-color: #1e293b;
+    color: #e0e0e0;
+    border: 1px solid #4a5568;
+    box-shadow: none;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    cursor: text;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Estilo para el input cuando está enfocado,
+  para mantener el diseño futurista 
+*/
+.futuristic-input:focus {
+    color: #e0e0e0;
+    background-color: #1e293b;
+    border-color: #00ffff;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(0, 255, 255, .25);
+}

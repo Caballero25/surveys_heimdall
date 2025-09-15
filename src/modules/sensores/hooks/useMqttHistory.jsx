@@ -1,44 +1,58 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { connect, disconnect, onMessage, getStatus } from "../services/mqttClient";
 import Plot from 'react-plotly.js';
+import { notify } from '../../../shared/components/Notify';
 
 // Configuración de los temas MQTT
-const TOPICS = ["/Gae/PCasing/", "/Gae/PTubing/", "/Gae/FlowCount/"];
+const TOPICS = [
+  "/Sacha53/Pcasing", 
+  "/Sacha53/Ptubing", 
+  "/Sacha53/VsdMotAmps", 
+  "/Sacha53/DHMotorTemp",
+  "/Sacha53/DHDischargePressure",
+  "/Sacha53/DHIntakeTemp",
+  "/Sacha53/DHIntakePressure", 
+  "/Sacha53/VSDTargetFreq",
+];
 const TOPIC_CONFIG = {
-  "/Gae/PCasing/": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
-  "/Gae/PTubing/": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
-  "/Gae/FlowCount/": { name: "Flujo", color: "#8A2BE2", unit: "PCD" },
+  "/Sacha53/Pcasing": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
+  "/Sacha53/Ptubing": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
 };
-const MAX_DATA_POINTS = 300;
+const MAX_DATA_POINTS = 2000;
 const PADDING_PERCENT_MAX = 0.10;
 const PADDING_PERCENT_MIN = 0.05;
 
-function generateInitialTestData(topics, numPoints = 30) {
-  const initialData = {};
-  const now = new Date();
+function generateInitialTestData(topics, numPoints = 1000) {
+  const initialData = {};
+  const now = new Date();
+  const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
+  const timeInterval = SEVEN_DAYS_IN_MS / numPoints;
 
-  topics.forEach(topic => {
-    const x = [];
-    const y = [];
-    for (let i = 0; i < numPoints; i++) {
-      const timestamp = new Date(now.getTime() - (numPoints - i) * 1000);
-      x.push(timestamp);
+  topics.forEach(topic => {
+    const x = [];
+    const y = [];
+    for (let i = 0; i < numPoints; i++) {
+      const timestamp = new Date(now.getTime() - (numPoints - i) * timeInterval);
+      x.push(timestamp);
 
-      let simulatedValue;
-      if (topic === "/Gae/PTubing/") {
-        simulatedValue = 100 + (Math.random() - 0.5) * 10;
-      } else if (topic === "/Gae/PCasing/") {
-        simulatedValue = 150 + (Math.random() - 0.5) * 8;
-      } else { // "/Gae/FlowCount/"
-        simulatedValue = 23800 + (Math.random() - 0.5) * 5;
-      }
-      y.push(simulatedValue);
-    }
-    initialData[topic] = { x, y };
-  });
+      let simulatedValue;
+      if (topic === "/Sacha53/Ptubing") {
+        // ❗ Valor ajustado para que Tubing esté entre 104 y 108 PSI
+        simulatedValue = 104 + (Math.random() * 4);
+      } else if (topic === "/Sacha53/Pcasing") {
+        simulatedValue = 152 + (Math.random() * 4); 
+      } else { // "/Gae/FlowCount/"
+        simulatedValue = 23800 + (Math.random() - 0.5) * 5;
+      }
+      y.push(simulatedValue);
+    }
+    initialData[topic] = { x, y };
+  });
 
-  return initialData;
+  return initialData;
 }
+
+
 
 export function useMqttHistory() {
   const [status, setStatus] = useState(getStatus());
@@ -113,78 +127,117 @@ export function useMqttHistory() {
   return { status, history, lastByTopic, topics: TOPICS, TOPIC_CONFIG };
 } 
 
-export function PressureChart({ history }) {
-  const [revision, setRevision] = useState(0);
-  const casingHistory = history["/Gae/PCasing/"];
-  const tubingHistory = history["/Gae/PTubing/"];
+export function PressureChart({ history, hiddenLines, toggleLineVisibility, onLegendDoubleClick }) {
+  const { TOPIC_CONFIG } = useMqttHistory();
+  const [revision, setRevision] = useState(0);
 
-  const [yMin, yMax] = useMemo(() => {
-    const casingData = casingHistory?.y || [];
-    const tubingData = tubingHistory?.y || [];
-    const allData = [...casingData, ...tubingData];
-    if (allData.length === 0) return [0, 100];
-    const currentYMin = Math.min(...allData);
-    const currentYMax = Math.max(...allData);
-    const calculatedYMin = currentYMin > 0 ? currentYMin * (1 - PADDING_PERCENT_MIN) : 0;
-    const calculatedYMax = currentYMax * (1 + PADDING_PERCENT_MAX);
-    return [calculatedYMin, calculatedYMax];
-  }, [casingHistory, tubingHistory]);
+  const casingHistory = history["/Sacha53/Pcasing"];
+  const tubingHistory = history["/Sacha53/Ptubing"];
 
-  useEffect(() => {
-    setRevision(r => r + 1);
-  }, [casingHistory?.x, tubingHistory?.x]);
+  const [yMin, yMax] = useMemo(() => {
+    const casingData = casingHistory?.y || [];
+    const tubingData = tubingHistory?.y || [];
+    const allData = [...casingData, ...tubingData];
+    if (allData.length === 0) return [0, 100];
+    const currentYMin = Math.min(...allData);
+    const currentYMax = Math.max(...allData);
+    const calculatedYMin = currentYMin > 0 ? currentYMin * (1 - PADDING_PERCENT_MIN) : 0;
+    const calculatedYMax = currentYMax * (1 + PADDING_PERCENT_MAX);
+    return [calculatedYMin, calculatedYMax];
+  }, [casingHistory, tubingHistory]);
 
-  const traces = [
-    {
-      x: casingHistory?.x,
-      y: casingHistory?.y,
-      name: TOPIC_CONFIG["/Gae/PCasing/"].name,
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: TOPIC_CONFIG["/Gae/PCasing/"].color, width: 2 },
-    },
-    {
-      x: tubingHistory?.x,
-      y: tubingHistory?.y,
-      name: TOPIC_CONFIG["/Gae/PTubing/"].name,
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: TOPIC_CONFIG["/Gae/PTubing/"].color, width: 2 },
-    },
-  ];
+  useEffect(() => {
+    setRevision(r => r + 1);
+  }, [casingHistory?.x, tubingHistory?.x]);
 
-  const layout = {
-    datarevision: revision,
-    autosize: true,
-    paper_bgcolor: "#1e293b",
-      plot_bgcolor: "#1e293b",
-    font: { color: '#e0e0e0' },
-    title: { text: 'Presión Casing vs Tubing en Tiempo Real', font: { size: 18, color: '#e0e0e0' } },
-    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 },
-    xaxis: {
-      title: 'Tiempo',
-      gridcolor: '#444444',
-      type: 'date',
-      tickfont: { color: '#e0e0e0' }
-    },
-    yaxis: {
-      title: 'Presión (PSI)',
-      gridcolor: '#444444',
-      tickfont: { color: '#e0e0e0' },
+  const traces = useMemo(() => {
+    const allTraces = [
+      {
+        x: casingHistory?.x,
+        y: casingHistory?.y,
+        name: TOPIC_CONFIG["/Sacha53/Pcasing"].name,
+        topic: "/Sacha53/Pcasing",
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: TOPIC_CONFIG["/Sacha53/Pcasing"].color, width: 2 },
+      },
+      {
+        x: tubingHistory?.x,
+        y: tubingHistory?.y,
+        name: TOPIC_CONFIG["/Sacha53/Ptubing"].name,
+        topic: "/Sacha53/Ptubing",
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: TOPIC_CONFIG["/Sacha53/Ptubing"].color, width: 2 },
+      },
+    ];
+
+    return allTraces.map(trace => ({
+        ...trace,
+        visible: hiddenLines[trace.topic] ? 'legendonly' : true
+    }));
+  }, [casingHistory, tubingHistory, hiddenLines]);
+
+  const layout = {
+    datarevision: revision,
+    autosize: true,
+    paper_bgcolor: "#1e293b",
+    plot_bgcolor: "#1e293b",
+    font: { color: '#e0e0e0' },
+    title: { text: 'Presión Casing vs Tubing en Tiempo Real', font: { size: 18, color: '#e0e0e0' } },
+    margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 },
+    xaxis: {
+      title: 'Tiempo',
+      gridcolor: '#444444',
+      type: 'date',
+      tickfont: { color: '#e0e0e0' }
+    },
+    yaxis: {
+      title: 'Presión (PSI)',
+      gridcolor: '#444444',
+      tickfont: { color: '#e0e0e0' },
       nticks: 6,
-      range: [yMin, yMax],
-    },
-  };
+      range: [yMin, yMax],
+    },
+    legend: {
+      font: {
+        color: '#e0e0e0'
+      },
+      itemclick: false,
+      itemdoubleclick: false,
+    },
+  };
 
-  return (
-    <Plot
-      data={traces}
-      layout={layout}
-      style={{ width: '100%', height: '100%' }}
-      useResizeHandler={true}
-      config={{ responsive: true }}
-    />
-  );
+  const config = {
+    displaylogo: false,
+    responsive: true,
+  };
+
+  return (
+    <Plot
+      data={traces}
+      layout={layout}
+      style={{ width: '100%', height: '100%' }}
+      useResizeHandler={true}
+      config={config}
+      onLegendClick={(event) => {
+        const topic = event.data[event.curveNumber].topic;
+        const isHidden = hiddenLines[topic];
+        const action = isHidden ? "Mostrando" : "Ocultando";
+        const name = TOPIC_CONFIG[topic]?.name || topic;
+        
+        notify('info', `${action} línea de ${name}`);
+        toggleLineVisibility(topic);
+        
+        return false;
+      }}
+      onLegendDoubleClick={(event) => {
+        const topic = event.data[event.curveNumber].topic;
+        onLegendDoubleClick(event);
+        return false;
+      }}
+    />
+  );
 }
 
 export function FlowCountChart({ history }) {

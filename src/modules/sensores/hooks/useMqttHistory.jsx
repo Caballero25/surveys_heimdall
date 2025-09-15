@@ -5,18 +5,18 @@ import { notify } from '../../../shared/components/Notify';
 
 // Configuración de los temas MQTT
 const TOPICS = [
-  "/Sacha53/Pcasing", 
-  "/Sacha53/Ptubing", 
-  "/Sacha53/VsdMotAmps", 
-  "/Sacha53/DHMotorTemp",
-  "/Sacha53/DHDischargePressure",
-  "/Sacha53/DHIntakeTemp",
-  "/Sacha53/DHIntakePressure", 
-  "/Sacha53/VSDTargetFreq",
+  "/Sacha53/Pcasing", 
+  "/Sacha53/Ptubing", 
+  "/Sacha53/VsdMotAmps", 
+  "/Sacha53/DHMotorTemp",
+  "/Sacha53/DHDischargePressure",
+  "/Sacha53/DHIntakeTemp",
+  "/Sacha53/DHIntakePressure", 
+  "/Sacha53/VSDTargetFreq",
 ];
 const TOPIC_CONFIG = {
-  "/Sacha53/Pcasing": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
-  "/Sacha53/Ptubing": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
+  "/Sacha53/Pcasing": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
+  "/Sacha53/Ptubing": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
 };
 const MAX_DATA_POINTS = 2000;
 const PADDING_PERCENT_MAX = 0.10;
@@ -37,11 +37,11 @@ function generateInitialTestData(topics, numPoints = 1000) {
 
       let simulatedValue;
       if (topic === "/Sacha53/Ptubing") {
-        // ❗ Valor ajustado para que Tubing esté entre 104 y 108 PSI
+        // Valor ajustado para que Tubing esté entre 104 y 108 PSI
         simulatedValue = 104 + (Math.random() * 4);
       } else if (topic === "/Sacha53/Pcasing") {
         simulatedValue = 152 + (Math.random() * 4); 
-      } else { // "/Gae/FlowCount/"
+      } else {
         simulatedValue = 23800 + (Math.random() - 0.5) * 5;
       }
       y.push(simulatedValue);
@@ -51,8 +51,6 @@ function generateInitialTestData(topics, numPoints = 1000) {
 
   return initialData;
 }
-
-
 
 export function useMqttHistory() {
   const [status, setStatus] = useState(getStatus());
@@ -160,6 +158,11 @@ export function PressureChart({ history, hiddenLines, toggleLineVisibility, onLe
         type: 'scatter',
         mode: 'lines',
         line: { color: TOPIC_CONFIG["/Sacha53/Pcasing"].color, width: 2 },
+        // ❗ Actualización del hovertemplate
+        hovertemplate: 
+          "<b>Fecha:</b> %{x|%Y-%m-%d %H:%M:%S}<br>" +
+          "<b>%{data.name}:</b> %{y:.2f} PSI<br>" +
+          "<b>Nota:</b><extra></extra>",
       },
       {
         x: tubingHistory?.x,
@@ -169,6 +172,11 @@ export function PressureChart({ history, hiddenLines, toggleLineVisibility, onLe
         type: 'scatter',
         mode: 'lines',
         line: { color: TOPIC_CONFIG["/Sacha53/Ptubing"].color, width: 2 },
+        // ❗ Actualización del hovertemplate
+        hovertemplate: 
+          "<b>Fecha:</b> %{x|%Y-%m-%d %H:%M:%S}<br>" +
+          "<b>%{data.name}:</b> %{y:.2f} PSI<br>" +
+          "<b>Nota:</b><extra></extra>",
       },
     ];
 
@@ -206,6 +214,7 @@ export function PressureChart({ history, hiddenLines, toggleLineVisibility, onLe
       itemclick: false,
       itemdoubleclick: false,
     },
+    // ❗ Elimina la configuración del hoverlabel para usar el hovertemplate
   };
 
   const config = {
@@ -272,7 +281,7 @@ export function FlowCountChart({ history }) {
     datarevision: revision,
     autosize: true,
     paper_bgcolor: "#1e293b",
-      plot_bgcolor: "#1e293b",
+      plot_bgcolor: "#1e293b",
     font: { color: '#e0e0e0' },
     title: { text: 'Flujo en Tiempo Real', font: { size: 18, color: '#e0e0e0' } },
     margin: { l: 40, r: 20, b: 50, t: 80, pad: 4 },
@@ -286,7 +295,7 @@ export function FlowCountChart({ history }) {
       title: 'Flujo (PCD)',
       gridcolor: '#444444',
       tickfont: { color: '#e0e0e0' },
-      nticks: 6,
+      nticks: 6,
       range: [yMin, yMax],
     },
   };

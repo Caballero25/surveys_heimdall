@@ -7,11 +7,10 @@ import { notify } from '../../../shared/components/Notify';
 
 import "../styles/futuristic-datepicker.css";
 import "../styles/custom-input.css";
-import { useMqttHistory, PressureChart, FlowCountChart } from '../hooks/useMqttHistory';
+import { useMqttHistory, PressureChart } from '../hooks/useMqttHistory';
 import ConnectionBadge from '../components/ConnectionBadge';
 import TopicCard from '../components/TopicCard';
 
-// Registra el locale de español para DatePicker
 registerLocale("es", es);
 
 export default function MqttPage() {
@@ -231,7 +230,7 @@ export default function MqttPage() {
                 className="card h-100 shadow-sm"
                 style={{
                   minHeight: '300px',
-                  maxHeight: '300px',
+                  maxHeight: '400px',
                   backgroundColor: '#1e293b',
                   border: '1px solid #4a5568',
                   boxShadow: '0 4px 6px -1-px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'

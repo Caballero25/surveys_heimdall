@@ -3,6 +3,7 @@ import { SurveysContext } from '../context/SurveysContext'
 import SurveysCard from './Cards/SurveysCard'
 import CreateSurveyCard from './Cards/CreateSurveyCard'
 import '../styles/SurveysGrid.css'
+
 export default function SurveysGrid() {
   const { surveys } = useContext(SurveysContext)
   if (surveys === null) {

@@ -1,0 +1,77 @@
+/* src/futuristic-datepicker.css */
+
+/* Estilo principal del calendario */
+.react-datepicker {
+  font-family: monospace;
+  background-color: #0f172a; /* Fondo muy oscuro */
+  color: #c0c0c0; /* Texto gris claro */
+  border: 1px solid #4a5568; /* Borde sutil */
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.2); /* Resplandor de cian sutil */
+}
+
+/* Estilo de los días y la navegación */
+.react-datepicker__header,
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker__day-name {
+  background-color: #1a202c;
+  border-bottom: 1px solid #4a5568;
+  color: #00ffff; /* Neón cian para el texto de cabecera */
+}
+
+.react-datepicker__navigation {
+  border: none;
+}
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  border-color: #00ffff;
+  top: 1%;
+}
+/* ❗ Ajusta la posición de las flechas individualmente */
+.react-datepicker__navigation--previous {
+  left: 10px; /* Mueve la flecha izquierda más a la derecha */
+}
+.react-datepicker__navigation--next {
+  left: 200px; /* Mueve la flecha derecha más a la izquierda */
+}
+.react-datepicker__navigation-icon::before {
+  border-color: #00ffff;
+}
+
+.react-datepicker__day {
+  color: #c0c0c0;
+  border-radius: 4px;
+}
+
+.react-datepicker__day:hover {
+  background-color: #2d3748; /* Color de fondo en hover */
+  color: #00ffff;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: #00ffff !important;
+  color: #1a202c !important; /* Texto oscuro en la selección */
+  border-radius: 4px;
+}
+
+/* Estilo del selector de hora */
+
+
+.react-datepicker__time-list {
+  background-color: #0f172a;
+}
+.react-datepicker__time-list-item {
+  color: #c0c0c0;
+}
+.react-datepicker__time-list-item--selected {
+  background-color: #00ffff !important;
+  color: #1a202c !important;
+  font-weight: bold;
+}
+
+/* Oculta el contenedor del selector de hora */
+.react-datepicker__time-container {
+  display: none;
+}

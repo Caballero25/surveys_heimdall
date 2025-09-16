@@ -5,6 +5,7 @@ import { NavBar } from '../shared/components/NavBar'
 import { SurveysContext } from '../modules/surveys/context/SurveysContext'
 import { SurveyProvider } from '../modules/surveys/context/SurveysProvider'
 import SurveyInfo from '../modules/surveys/pages/SurveyInfo'
+import MqttPage from '../modules/sensores/pages/MqttPage'
 export function AppRoutes() {
   return (
     // 1. Envuelve todo en BrowserRouter
@@ -27,6 +28,14 @@ export function AppRoutes() {
           element={
             <SurveyProvider>
               <SurveyInfo />
+            </SurveyProvider>
+          }
+        />
+        <Route
+          path="/sensores"
+          element={
+            <SurveyProvider>
+              <MqttPage />
             </SurveyProvider>
           }
         />

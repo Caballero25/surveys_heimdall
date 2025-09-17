@@ -11,12 +11,12 @@ export default function TopicCard({ topic, data, style }) {
   const ts = data?.timestamp ? new Date(data.timestamp).toLocaleString() : '—';
 
   return (
-    <div className="col-12 mb-3">
+    <div className="col-6 mb-3">
       {/* Remove bg-light from this div */}
       <div className="card h-100 shadow-sm" style={style}>
         <div className="card-body">
           {/* Change text-muted to a lighter color for readability */}
-          <h6 className="card-subtitle mb-2" style={{color: 'rgba(255, 255, 255, 0.5)'}}>{config.name}</h6>
+          <h6 className="card-subtitle mb-0" style={{color: 'rgba(255, 255, 255, 0.5)'}}>{config.name}</h6>
           <h4 className="card-title">
             {payload} <small style={{color: 'rgba(255, 255, 255, 0.5)'}}>{unit}</small>
           </h4>

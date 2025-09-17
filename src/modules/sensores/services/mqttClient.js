@@ -33,12 +33,39 @@ export const TOPIC_CONFIG = {
     name: "Presión Tubing",
     unit: "PSI",
     color: "#ff7f0e" // Naranja vibrante
-  }/*,
-  "/Gae/FlowCount/": {
-    name: "Flujo",
-    unit: "PCD",
-    color: "#2ca02c" // Verde claro
-  },*/
+  },
+  "/Sacha53/VsdMotAmps": {
+    name: "Im",
+    unit: "amp",
+    color: "#98FB98" // Verde claro (PaleGreen)
+  },
+  "/Sacha53/DHMotorTemp": {
+    name: "Tm",
+    unit: "°F",
+    color: "#FF6347", // Tomate
+    lineStyle: 'dotted'
+  },
+  "/Sacha53/DHDischargePressure": {
+    name: "Pd",
+    unit: "psi",
+    color: "#708090" // Plomo (SlateGray)
+  },
+  "/Sacha53/DHIntakeTemp": {
+    name: "Ti",
+    unit: "°F",
+    color: "#FFD700" // Amarillo (Gold)
+  },
+  "/Sacha53/DHIntakePressure": {
+    name: "Pi",
+    unit: "psi",
+    color: "#DC143C" // Rojo (Crimson)
+  },
+  "/Sacha53/VSDTargetFreq": {
+    name: "f",
+    unit: "Hz",
+    color: "#006400", // Verde oscuro
+    lineStyle: 'dotted'
+  }
 };
 
 

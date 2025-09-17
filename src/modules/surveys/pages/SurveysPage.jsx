@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/SurveysPage.css'
+import RealTimeRedireccion from '../../sensores/pages/redireccionPage' 
 import SurveysGrid from '../components/SurveysGrid'
 
 export default function SurveysPage() {
@@ -11,6 +12,7 @@ export default function SurveysPage() {
       </header>
 
       <main className="surveys-content">
+        <RealTimeRedireccion/>
         <SurveysGrid />
       </main>
     </div>

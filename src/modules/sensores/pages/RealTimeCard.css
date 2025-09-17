@@ -1,0 +1,40 @@
+/* RealTimeCard.css */
+
+/* Efecto de transición suave al pasar el cursor */
+.real-time-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border-radius: 10px; /* Bordes ligeramente redondeados */
+}
+
+/* Efecto de elevación al pasar el cursor */
+.real-time-card:hover {
+  transform: translateY(-10px);
+  /* Un box-shadow más sutil para el tema oscuro */
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4) !important; 
+}
+
+/* Círculo indicador del estado "EN VIVO" para el tema oscuro */
+.live-indicator-dark-theme {
+  width: 12px;
+  height: 12px;
+  background-color: #00BFFF; /* Azul cielo para el indicador */
+  border-radius: 50%;
+  /* Aplicamos la animación 'pulse' con el color ajustado */
+  animation: pulse-dark-theme 2s infinite;
+}
+
+/* Definición de la animación de pulso para el tema oscuro */
+@keyframes pulse-dark-theme {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7); /* Azul cielo con opacidad */
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 191, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 191, 255, 0);
+  }
+}

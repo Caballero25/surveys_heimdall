@@ -23,7 +23,10 @@
 
 .surveys-page-header p {
   font-size: 1.1rem;
-  color: #e88721; /* Un gris más suave para el subtítulo */
+  color: white; /* Un gris más suave para el subtítulo */
+  background-color: #5D409C;
+  border-radius: 50px;
+  text-align: center;
   margin-top: 0.5rem;
 }
 

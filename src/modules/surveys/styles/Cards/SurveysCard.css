@@ -55,7 +55,7 @@
 }
 
 .survey-card-link {
-  background-color: #fe972b; /* Naranja vibrante de la paleta */
+  background-color: #0A0A2A; /* Naranja vibrante de la paleta */
   color: #ffffff;
   text-decoration: none;
   padding: 0.6rem 1.2rem;
@@ -65,5 +65,5 @@
 }
 
 .survey-card-link:hover {
-  background-color: #e88721; /* Un naranja un poco más oscuro al pasar el mouse */
+  background-color: #0A0A2A; /* Un naranja un poco más oscuro al pasar el mouse */
 }

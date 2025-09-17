@@ -13,9 +13,9 @@
 }
 
 .create-survey-card:hover {
-  border-color: #fe972b; /* El borde se vuelve naranja al pasar el mouse */
+  border-color: #5D409C; /* El borde se vuelve naranja al pasar el mouse */
   background-color: #ffffff;
-  color: #fe972b; /* El texto se vuelve naranja */
+  color: #5D409C; /* El texto se vuelve naranja */
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }

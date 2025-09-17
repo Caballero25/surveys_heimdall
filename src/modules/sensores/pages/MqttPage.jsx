@@ -135,7 +135,7 @@ export default function MqttPage() {
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
 
       <div className="d-flex align-items-center justify-content-between mb-4 pb-2" style={{ borderBottom: '1px solid #4a5568' }}>
-        <h2 className="h4 m-0 fw-bold" style={{ color: '#00ffff' }}>Dashboard MQTT en Tiempo Real</h2>
+        <h2 className="h4 m-0 fw-bold" style={{ color: '#5D409C' }}>Dashboard MQTT en Tiempo Real</h2>
         <ConnectionBadge isConnected={status.isConnected} />
       </div>
 
@@ -212,7 +212,7 @@ export default function MqttPage() {
           <div>
               <label className="form-label">&nbsp;</label>
               <button 
-                className="btn btn-outline-info" 
+                className="btn btn-outline-light" 
                 onClick={handleResetFilter}
                 style={{ height: 'calc(1.5em + .75rem + 2px)' }}
               >

@@ -12,7 +12,7 @@ export default function RealTimeRedireccion() {
   };
 
   return (
-    <div className="container d-flex mb-3">
+    <div className="container-fluid d-flex mb-3">
       <div 
         className="card text-center shadow-lg border-0 real-time-card" 
         style={{ 
@@ -29,7 +29,7 @@ export default function RealTimeRedireccion() {
           <i className="bi bi-activity" style={{ fontSize: '4rem', color: '#FFFFFF' }}></i>
           
           <h5 className="card-title mt-3 fw-bold">
-            Monitor de Sensores
+            Monitor de Sensores [ Pozo 1 ]
           </h5>
           
           <p className="card-text" style={{ color: 'rgba(255, 255, 255, 0.7)' /* Texto secundario en un blanco más tenue */ }}>

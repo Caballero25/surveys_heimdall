@@ -37,9 +37,9 @@
 
 /* Estilo para el botón activo */
 .nav-button.active {
-  background-color: #fe972b; /* Naranja de la paleta */
+  background-color: #5D409C; /* Naranja de la paleta */
   color: #ffffff;
-  border-color: #fe972b;
+  border-color: #5D409C;
 }
 
 /* Wrapper para el select para un mejor control del estilo */

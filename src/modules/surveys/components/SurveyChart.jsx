@@ -59,7 +59,7 @@ const SurveyChartComponent = ({ data, is3D }) => {
         y: YValue,
         type: "scattergl",
         mode: "lines",
-        line: { color: "#fe972b", width: 3 },
+        line: { color: "#5D409C", width: 3 },
         hovertemplate: "E/W: %{x:.2f} ft<br>N/S: %{y:.2f} ft<extra></extra>",
       },
     ];

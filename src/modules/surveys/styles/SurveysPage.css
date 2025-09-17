@@ -21,7 +21,7 @@
   font-weight: 700;
 }
 
-.surveys-page-header p {
+.surveys-page-header .title {
   font-size: 1.1rem;
   color: white; /* Un gris más suave para el subtítulo */
   background-color: #5D409C;

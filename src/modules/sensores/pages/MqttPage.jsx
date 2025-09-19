@@ -167,7 +167,7 @@ export default function MqttPage() {
         className="d-flex align-items-center justify-content-between mb-4 pb-2"
         style={{ borderBottom: "1px solid #4a5568" }}
       >
-        <h2 className="h4 m-0 fw-bold" style={{ color: "#5D409C" }}>
+        <h2 className="h4 m-0 fw-bold" style={{ color: "#ffffffff" }}>
           Dashboard MQTT en Tiempo Real
         </h2>
         <ConnectionBadge isConnected={status.isConnected} />
@@ -252,23 +252,6 @@ export default function MqttPage() {
               </span>
             </div>
           </div>
-          <div className="row mb-4">
-            {topics.map((topic) => {
-              const config = TOPIC_CONFIG[topic];
-              const data = lastByTopic[topic];
-              if (!config || !config.gauge) return null; // No renderizar si no tiene config de gauge
-
-              return (
-                <GaugeCard
-                  key={topic}
-                  title={config.name}
-                  value={data?.payload}
-                  unit={config.unit}
-                  gaugeConfig={config.gauge}
-                />
-              );
-            })}
-          </div>
           {/* Contenedor para alinear el botón con los inputs */}
           <div>
             <label className="form-label">&nbsp;</label>
@@ -283,15 +266,47 @@ export default function MqttPage() {
         </div>
       </div>
 
+      <div className="row mt-4" style={{justifyContent: "space-evenly"}}>
+        <div className="col-12">
+          <h5
+            className="mb-3"
+            style={{
+              color: "#c0c0c0",
+              fontSize: "1rem",
+              borderBottom: "1px solid #4a5568",
+              paddingBottom: "0.5rem",
+            }}
+          >
+            Estado Actual de Sensores
+          </h5>
+        </div>
+        {topics.map((topic) => {
+          const config = TOPIC_CONFIG[topic];
+          const data = lastByTopic[topic];
+          // No renderizar si el topic no tiene una configuración de medidor definida
+          if (!config || !config.gauge) return null;
+
+          return (
+            <GaugeCard
+              key={topic}
+              title={config.name}
+              value={data?.payload}
+              unit={config.unit}
+              gaugeConfig={config.gauge}
+            />
+          );
+        })}
+      </div>
+
       <div className="row">
-        <div className="col-lg-9 mb-4">
+        <div className="col-lg-12 mb-4">
           <div className="row h-100">
             <div className="col-12 mb-4">
               <div
                 className="card h-100 shadow-sm"
                 style={{
-                  minHeight: "300px",
-                  maxHeight: "600px",
+                  minHeight: "500px",
+                  maxHeight: "500px",
                   backgroundColor: "#1e293b",
                   border: "1px solid #4a5568",
                   boxShadow:
@@ -308,26 +323,6 @@ export default function MqttPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="col-lg-3">
-          <div className="row">
-            {topics.map((t) => {
-              const data = lastByTopic[t];
-              return (
-                <TopicCard
-                  key={t}
-                  topic={t}
-                  data={data}
-                  style={{
-                    backgroundColor: "#1e293b",
-                    color: "#e0e0e0",
-                    border: "none",
-                  }}
-                />
-              );
-            })}
           </div>
         </div>
       </div>

@@ -43,11 +43,11 @@ export default function GaugeCard({ title, value, unit, gaugeConfig }) {
             labelText=""
           />
 
-          <div className="mt-2">
+          <div style={{marginTop: "-10px"}}>
             <h5 className="card-title m-0" style={{ fontSize: '1.2rem' }}>
               {displayText}
             </h5>
-            <p className="card-text text-muted" style={{ fontSize: '0.8rem' }}>
+            <p className="card-text" style={{ fontSize: '0.8rem' }}>
               {title} ({unit})
             </p>
           </div>

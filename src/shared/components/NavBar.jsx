@@ -21,7 +21,7 @@ export function NavBar() {
           src={Image}
           alt="Logo Overtech"
           className="navbar-logo"
-          style={{ height: "50px" }}
+          style={{ height: "40px" }}
         />
         <ul className={`navbar-links ${isOpen ? "open" : ""}`}>
           <li>

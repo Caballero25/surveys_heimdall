@@ -12,7 +12,7 @@ export default function GaugeCard({ title, value, unit, gaugeConfig }) {
   const max = range[1];
 
   const customSegmentStops = [min, stops[0], stops[1], stops[2], stops[3], max];
-  const segmentColors = ["#EA4228", "#F5CD19", "#5BE12C", "#F5CD19", "#EA4228"];
+  const segmentColors = ["#D411FB", "#152D83", "#0BBBFF", "#152D83", "#D411FB"];
 
   return (
     <div className="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 mb-3 p-1">

@@ -23,11 +23,11 @@ const TOPICS = [
 // En tu archivo `useMqttHistory.jsx`
 const TOPIC_CONFIG = {
   "/Sacha53/Pcasing": { 
-    name: "Presión Casing", color: "#00b2ff", unit: "PSI",
+    name: "Panul", color: "#047aadff", unit: "PSI",
     gauge: { range: [95, 219], stops: [126, 141, 173, 188] }
   },
   "/Sacha53/Ptubing": { 
-    name: "Presión Tubing", color: "#ff267e", unit: "PSI",
+    name: "PL", color: "#ffffffff", unit: "PSI",
     gauge: { range: [64, 148], stops: [84, 95, 116, 127] }
   },
   "/Sacha53/VsdMotAmps": { 

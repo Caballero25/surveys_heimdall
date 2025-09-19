@@ -19,25 +19,41 @@ const TOPICS = [
   "/Sacha53/DHIntakePressure",
   "/Sacha53/VSDTargetFreq",
 ];
+// En tu archivo `useMqttHistory.jsx`
+// En tu archivo `useMqttHistory.jsx`
 const TOPIC_CONFIG = {
-  "/Sacha53/Pcasing": { name: "Presión Casing", color: "#00b2ff", unit: "PSI" },
-  "/Sacha53/Ptubing": { name: "Presión Tubing", color: "#ff267e", unit: "PSI" },
-  "/Sacha53/VsdMotAmps": { name: "Im", unit: "amp", color: "#98FB98" },
-  "/Sacha53/DHMotorTemp": {
-    name: "Tm",
-    unit: "°F",
-    color: "#FF6347",
-    lineStyle: "dotted",
+  "/Sacha53/Pcasing": { 
+    name: "Presión Casing", color: "#00b2ff", unit: "PSI",
+    gauge: { range: [0, 250], stops: [80, 120, 180, 220] }
   },
-  "/Sacha53/DHDischargePressure": { name: "Pd", unit: "psi", color: "#708090" },
-  "/Sacha53/DHIntakeTemp": { name: "Ti", unit: "°F", color: "#FFD700" },
-  "/Sacha53/DHIntakePressure": { name: "Pi", unit: "psi", color: "#DC143C" },
-  "/Sacha53/VSDTargetFreq": {
-    name: "f",
-    unit: "Hz",
-    color: "#006400",
-    lineStyle: "dotted",
+  "/Sacha53/Ptubing": { 
+    name: "Presión Tubing", color: "#ff267e", unit: "PSI",
+    gauge: { range: [0, 250], stops: [80, 110, 170, 210] }
   },
+  "/Sacha53/VsdMotAmps": { 
+    name: "Motor Amps", unit: "A", color: "#98FB98",
+    gauge: { range: [0, 50], stops: [10, 20, 35, 45] }
+  },
+  "/Sacha53/DHMotorTemp": { 
+    name: "Motor Temp", unit: "°F", color: "#FF6347", lineStyle: 'dotted',
+    gauge: { range: [50, 400], stops: [150, 250, 320, 370] }
+  },
+  "/Sacha53/DHDischargePressure": { 
+    name: "Dschr Pr.", unit: "psi", color: "#708090",
+    gauge: { range: [0, 4000], stops: [1000, 3000, 3500, 3800] }
+  },
+  "/Sacha53/DHIntakeTemp": { 
+    name: "Intake Temp", unit: "°F", color: "#FFD700",
+    gauge: { range: [50, 350], stops: [100, 200, 280, 330] }
+  },
+  "/Sacha53/DHIntakePressure": { 
+    name: "Intake Pr.", unit: "psi", color: "#DC143C",
+    gauge: { range: [0, 500], stops: [100, 300, 400, 470] }
+  },
+  "/Sacha53/VSDTargetFreq": { 
+    name: "Frequency", unit: "Hz", color: "#006400", lineStyle: 'dotted',
+    gauge: { range: [0, 90], stops: [45, 55, 65, 75] }
+  }
 };
 const MAX_DATA_POINTS = 2000;
 const PADDING_PERCENT_MAX = 0.1;

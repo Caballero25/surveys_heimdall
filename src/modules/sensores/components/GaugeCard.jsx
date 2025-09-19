@@ -28,7 +28,7 @@ export default function GaugeCard({ title, value, unit, gaugeConfig }) {
             "0 4px 12px rgba(0, 0, 0, 0.15), 0 0 2px rgba(74, 222, 255, 0.4)",
           transition: "all 0.3s ease",
           overflow: "hidden",
-          width: "160px"
+          width: "150px"
         }}
       >
         <div className="card-body p-1 d-flex flex-column justify-content-center align-items-center">
